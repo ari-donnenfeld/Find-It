@@ -27,6 +27,7 @@ import com.cs4084.findit.R;
 import com.cs4084.findit.ui.login.LoginViewModel;
 import com.cs4084.findit.ui.login.LoginViewModelFactory;
 import com.cs4084.findit.databinding.ActivityLoginBinding;
+import com.cs4084.findit.ui.organizer.OrganizerTaskActivity;
 import com.cs4084.findit.ui.player.PlayerTaskActivity;
 
 public class LoginActivity extends AppCompatActivity {
@@ -133,7 +134,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "I'm workgin!@", Toast.LENGTH_LONG).show();
-                Intent myIntent = new Intent(LoginActivity.this, PlayerTaskActivity.class);
+                Intent myIntent = new Intent(LoginActivity.this, OrganizerTaskActivity.class);
                 myIntent.putExtra("key", "hello there"); //Optional parameters
                 startActivity(myIntent);
             }

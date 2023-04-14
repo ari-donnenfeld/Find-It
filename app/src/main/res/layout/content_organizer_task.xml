@@ -6,171 +6,175 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="20dp"
-        android:orientation="vertical">
-
-        <TextView
+        android:layout_height="match_parent">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="com.cs4084.findit.data.SHTask 1"
-            android:textSize="30dp"
-            android:gravity="center"
-            android:layout_marginBottom="20dp"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="com.cs4084.findit.data.SHTask Description:"
-            android:textSize="20dp"
-            android:gravity="center"
-            android:layout_marginBottom="20dp"
-            />
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            android:orientation="vertical">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/description"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:ems="10"
-            android:gravity="start|top"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_marginTop="10dp"
-            android:inputType="textMultiLine"
-            android:hint="Description">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:gravity="start|top"
-                android:layout_height="match_parent"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="350dp">
-
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="com.cs4084.findit.data.SHClue #1"
-                    android:textSize="20dp"
-                    android:gravity="center"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="0dp"
-                    />
+                android:text="Task 1"
+                android:textSize="30dp"
+                android:gravity="center"
+                android:layout_marginBottom="20dp"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Task Description:"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:layout_marginBottom="20dp"
+                />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/hint"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:ems="10"
+                android:gravity="start|top"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_marginTop="10dp"
+                android:inputType="textMultiLine"
+                android:hint="Description">
+
+                <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:ems="10"
                     android:gravity="start|top"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_marginTop="10dp"
-                    android:inputType="textMultiLine"
-                    android:hint="Give them a hint">
+                    android:layout_height="match_parent"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:gravity="start|top"
-                        android:layout_height="match_parent"
-                        />
-                </com.google.android.material.textfield.TextInputLayout>
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="350dp">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal" >
+                    android:orientation="vertical" >
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Penalty: "
+                        android:text="Clue #1:"
                         android:textSize="20dp"
-                        android:gravity="right"
+                        android:gravity="center"
+                        android:layout_marginTop="20dp"
                         android:layout_marginBottom="0dp"
                         />
 
-                    <Spinner
-                        android:id="@+id/penalties_spinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:layout_weight="1" />
-                </LinearLayout>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Add com.cs4084.findit.data.SHClue"
-                    android:textColor="@color/blue"
-                    android:textSize="20dp"
-                    android:gravity="left"
-                    />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Answer:"
-                    android:textSize="20dp"
-                    android:gravity="center"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="0dp"
-                    />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp"
-                    android:orientation="horizontal" >
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/answer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="5"
+                        android:id="@+id/hint"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
                         android:ems="10"
+                        android:gravity="start|top"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:hint="Enter Your Answer Here">
+                        android:layout_marginTop="10dp"
+                        android:inputType="textMultiLine"
+                        android:hint="Give them a hint">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:gravity="start|top"
                             android:layout_height="match_parent"
                             />
-
                     </com.google.android.material.textfield.TextInputLayout>
-                    <Button
-                        android:id="@+id/button2"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="10dp"
-                        android:textAllCaps="false"
-                        android:text="Add" />
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal" >
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Penalty: "
+                            android:textSize="20dp"
+                            android:gravity="right"
+                            android:layout_marginBottom="0dp"
+                            />
+
+                        <Spinner
+                            android:id="@+id/penalties_spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:layout_weight="1" />
+                    </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="add clue"
+                        android:textColor="@color/blue"
+                        android:textSize="20dp"
+                        android:gravity="left"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Answer:"
+                        android:textSize="20dp"
+                        android:gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="0dp"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:orientation="horizontal" >
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/answer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="5"
+                            android:ems="10"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:hint="Enter Your Answer Here">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:id="@+id/newAnswer"
+                                android:gravity="start|top"
+                                android:layout_height="match_parent"
+                                />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <Button
+                            android:id="@+id/addAnswer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="10dp"
+                            android:textAllCaps="false"
+                            android:text="Add" />
+
+                    </LinearLayout>
+
+                    <ListView
+                        android:id="@+id/mobile_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"></ListView>
 
                 </LinearLayout>
-
-                <ListView
-                    android:id="@+id/mobile_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></ListView>
-
-            </LinearLayout>
-        </ScrollView>
-        <Button
-            android:id="@+id/button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginHorizontal="100dp"
-            android:textAllCaps="false"
-            android:text="Done" />
+            </ScrollView>
+            <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="100dp"
+                android:textAllCaps="false"
+                android:text="Done" />
 
 
-    </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
