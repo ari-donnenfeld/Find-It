@@ -1,9 +1,11 @@
+package com.cs4084.findit.data;
+
 import java.util.ArrayList; // import the ArrayList class
 
-public class TextTask implements Task {
+public class SHTextTask extends SHTask {
     public ArrayList<String> accepted_answers = new ArrayList<>();
 
-    public void TextTask() {
+    public void SHTextTask() {
     }
 
     public void addAnswer(String answer) {

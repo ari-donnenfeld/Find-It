@@ -2,6 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/idk"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.player.PlayerTaskActivity">
@@ -15,7 +16,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Task 1"
+                android:text="com.cs4084.findit.data.SHTask 1"
+                android:id="@+id/title"
                 android:textSize="40dp"
                 android:gravity="center"
                 android:layout_marginBottom="20dp"
@@ -23,8 +25,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Task Description: Here is a description, it hsould probably wrap thorugh to multiple lines, yea its doing it gereat!"
+                android:text="com.cs4084.findit.data.SHTask Description: Here is a description, it hsould probably wrap thorugh to multiple lines, yea its doing it gereat!"
                 android:textSize="20dp"
+                android:id="@+id/description"
                 android:gravity="center"
                 android:layout_marginBottom="20dp"
                 />
@@ -72,7 +75,7 @@
                     android:layout_marginBottom="1dp"
                     />
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/textField"
+                    android:id="@+id/playerAnswer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -87,7 +90,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/checkButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -108,7 +111,7 @@
                     android:layout_height="148dp" />
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/mapCheckButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -124,7 +127,7 @@
                 android:gravity="right|bottom"
                 android:orientation="vertical">
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/nextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"

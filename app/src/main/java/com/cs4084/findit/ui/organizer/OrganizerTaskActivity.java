@@ -2,6 +2,7 @@ package com.cs4084.findit.ui.organizer;
 
 import android.os.Bundle;
 
+import com.cs4084.findit.databinding.ActivityOrganizerTaskBinding;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,7 +16,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.cs4084.findit.ui.organizer.databinding.ActivityOrganizerTaskBinding;
+//import com.cs4084.findit.ui.organizer.databinding.ActivityOrganizerTaskBinding;
+import com.cs4084.findit.databinding.ActivityLoginBinding;
 
 import com.cs4084.findit.R;
 
@@ -33,7 +35,8 @@ public class OrganizerTaskActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.toolbar);
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_organizer_task);
+        NavController navController = Navigation.findNavController(this, R.id.activity_organizer_task);
+//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_organizer_task);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
@@ -45,19 +48,11 @@ public class OrganizerTaskActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
-
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_organizer_task);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_player_task);
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
     }

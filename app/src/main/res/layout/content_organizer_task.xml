@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Task 1"
+            android:text="com.cs4084.findit.data.SHTask 1"
             android:textSize="30dp"
             android:gravity="center"
             android:layout_marginBottom="20dp"
@@ -24,7 +24,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Task Description:"
+            android:text="com.cs4084.findit.data.SHTask Description:"
             android:textSize="20dp"
             android:gravity="center"
             android:layout_marginBottom="20dp"
@@ -59,7 +59,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Clue #1"
+                    android:text="com.cs4084.findit.data.SHClue #1"
                     android:textSize="20dp"
                     android:gravity="center"
                     android:layout_marginTop="20dp"
@@ -107,7 +107,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Add Clue"
+                    android:text="Add com.cs4084.findit.data.SHClue"
                     android:textColor="@color/blue"
                     android:textSize="20dp"
                     android:gravity="left"

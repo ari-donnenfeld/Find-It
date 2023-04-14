@@ -5,6 +5,7 @@ import android.app.Activity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -26,6 +27,7 @@ import com.cs4084.findit.R;
 import com.cs4084.findit.ui.login.LoginViewModel;
 import com.cs4084.findit.ui.login.LoginViewModelFactory;
 import com.cs4084.findit.databinding.ActivityLoginBinding;
+import com.cs4084.findit.ui.player.PlayerTaskActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -45,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         final EditText usernameEditText = binding.username;
         final EditText passwordEditText = binding.password;
         final Button loginButton = binding.login;
+        final Button test = binding.button3;
         final ProgressBar loadingProgressBar = binding.loading;
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
@@ -78,7 +81,10 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 setResult(Activity.RESULT_OK);
 
-                //Complete and destroy login activity once successful
+
+
+
+                // Complete and destroy login activity once successful
                 finish();
             }
         });
@@ -120,6 +126,16 @@ public class LoginActivity extends AppCompatActivity {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
+            }
+        });
+
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "I'm workgin!@", Toast.LENGTH_LONG).show();
+                Intent myIntent = new Intent(LoginActivity.this, PlayerTaskActivity.class);
+                myIntent.putExtra("key", "hello there"); //Optional parameters
+                startActivity(myIntent);
             }
         });
     }

@@ -1,4 +1,6 @@
-public class Clue {
+package com.cs4084.findit.data;
+
+public class SHClue {
     public String description;
     public int penalty;
 
