@@ -2,15 +2,19 @@ package com.cs4084.findit.ui.organizer;
 
 import android.os.Bundle;
 
+import com.cs4084.findit.data.SHTextTask;
 import com.cs4084.findit.databinding.ActivityOrganizerTaskBinding;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.navigation.NavController;
@@ -20,6 +24,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.cs4084.findit.R;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 
@@ -36,19 +41,30 @@ public class OrganizerTaskActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         final Button addAnswer = binding.addAnswer;
+        final Button save = binding.save;
         final TextInputEditText playerAnswer = binding.newAnswer;
+        final TextInputLayout description = binding.description;
         final ListView answerList = binding.answerList;
+        final Spinner penaltiesSpinner = binding.penaltiesSpinner;
 
-
-        //LIST OF ARRAY STRINGS WHICH WILL SERVE AS LIST ITEMS
+        // Setup the answer list
         ArrayList<String> listItems=new ArrayList<String>();
-        //DEFINING A STRING ADAPTER WHICH WILL HANDLE THE DATA OF THE LISTVIEW
         ArrayAdapter<String> adapter;
         adapter=new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,
                 listItems);
         answerList.setAdapter(adapter);
 
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Saving...", Toast.LENGTH_SHORT).show();
+                Log.v("tag", description.getEditText().getText().toString());
+                SHTextTask task = new SHTextTask();
+                task.description = description.getEditText().getText().toString();
+                task.accepted_answers = listItems;
+            }
+        });
         addAnswer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,6 +72,13 @@ public class OrganizerTaskActivity extends AppCompatActivity {
                 Log.v("tag", playerAnswer.getText().toString());
                 listItems.add(playerAnswer.getText().toString());
                 adapter.notifyDataSetChanged();
+                ViewGroup.LayoutParams params = answerList.getLayoutParams();
+                View listItem = adapter.getView(0, null, answerList);
+                listItem.measure(0, 0);
+                Log.v("tag", String.valueOf(listItem.getMeasuredHeight()));
+                params.height += listItem.getMeasuredHeight();
+                answerList.setLayoutParams(params);
+                answerList.requestLayout();
             }
         });
 
@@ -75,6 +98,7 @@ public class OrganizerTaskActivity extends AppCompatActivity {
 //        // Apply the adapter to the spinner
 //        spinner.setAdapter(adapter);
     }
+
 
     @Override
     public boolean onSupportNavigateUp() {

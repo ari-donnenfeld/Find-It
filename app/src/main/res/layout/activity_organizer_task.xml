@@ -57,7 +57,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/description"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="100dp"
                     android:ems="10"
                     android:gravity="start|top"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -123,9 +123,10 @@
 
                             <Spinner
                                 android:id="@+id/penalties_spinner"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="right"
+                                android:entries="@array/penalties_array"
                                 android:layout_weight="1" />
                         </LinearLayout>
                         <TextView
@@ -139,7 +140,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Answer:"
+                            android:text="Accepted Answers:"
                             android:textSize="20dp"
                             android:gravity="center"
                             android:layout_marginTop="20dp"
@@ -179,19 +180,17 @@
 
                         </LinearLayout>
 
-                        <ScrollView
+                        <ListView
+                            android:id="@+id/answerList"
                             android:layout_width="match_parent"
-                            android:layout_height="80dp">
-                            <ListView
-                                android:id="@+id/answerList"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"></ListView>
-                        </ScrollView>
+                            android:layout_height="3dp"
+                            android:layout_weight="1"
+                            ></ListView>
 
                     </LinearLayout>
                 </ScrollView>
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/save"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
