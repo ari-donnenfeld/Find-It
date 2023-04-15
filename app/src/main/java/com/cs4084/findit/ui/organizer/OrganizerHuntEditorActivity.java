@@ -23,6 +23,8 @@ import android.widget.Toast;
 import androidx.navigation.ui.AppBarConfiguration;
 
 import com.cs4084.findit.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -33,6 +35,9 @@ public class OrganizerHuntEditorActivity extends AppCompatActivity {
 
     LinearLayout tasksContainer;
     ArrayList<SHTask> taskList = new ArrayList<>();
+
+    // Setup Firebase
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +50,12 @@ public class OrganizerHuntEditorActivity extends AppCompatActivity {
 
         tasksContainer = binding.tasksContainer;
         Button addTaskButton = binding.addTaskButton;
+        Button saveButton = binding.saveButton;
+        Button createButton = binding.createButton;
+
+        // Setup Firebase
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
 
 //        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_organizer_hunt_editor);
 //        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
@@ -52,6 +63,14 @@ public class OrganizerHuntEditorActivity extends AppCompatActivity {
 
 
 
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Saving...", Toast.LENGTH_SHORT).show();
+                mDatabase.child("hunts").child("Tasks").setValue(taskList);
+            }
+        });
 
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override

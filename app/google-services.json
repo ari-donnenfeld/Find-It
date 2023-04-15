@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "199726821297",
+    "firebase_url": "https://find-it-18136-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "find-it-18136",
+    "storage_bucket": "find-it-18136.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:199726821297:android:c03c92c0c478b9600e9790",
+        "android_client_info": {
+          "package_name": "com.cs4084.findit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "199726821297-g09ql6apnni15rpmkvirb3s2gjkmvn1v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwBVTe5T3AmG9-7rbfrquybTgWz7hsFmc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "199726821297-g09ql6apnni15rpmkvirb3s2gjkmvn1v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
