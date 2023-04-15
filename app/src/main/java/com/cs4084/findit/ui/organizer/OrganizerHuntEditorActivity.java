@@ -1,14 +1,21 @@
 package com.cs4084.findit.ui.organizer;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
+import com.cs4084.findit.data.SHClue;
+import com.cs4084.findit.data.SHTask;
+import com.cs4084.findit.data.SHTextTask;
 import com.cs4084.findit.databinding.ActivityOrganizerHuntEditorBinding;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,12 +24,15 @@ import androidx.navigation.ui.AppBarConfiguration;
 
 import com.cs4084.findit.R;
 
+import java.util.ArrayList;
+
 public class OrganizerHuntEditorActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityOrganizerHuntEditorBinding binding;
 
     LinearLayout tasksContainer;
+    ArrayList<SHTask> taskList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +57,9 @@ public class OrganizerHuntEditorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Adding...", Toast.LENGTH_SHORT).show();
-                addCard("Task1");
+                SHTask task = new SHTextTask();
+                taskList.add(task);
+                addCard(task);
             }
         });
 
@@ -58,22 +70,66 @@ public class OrganizerHuntEditorActivity extends AppCompatActivity {
 
     }
 
-    private void addCard(String name) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            SHTask savedTask = (SHTask) data.getSerializableExtra("savedTask");
+            int savedTaskIndex = (int) data.getIntExtra("index", 0);
+            Log.v("tag", "I've gotten the new one. Lets se...");
+            Log.v("tag", savedTask.description);
+            taskList.set(savedTaskIndex, savedTask);
+            tasksContainer.removeViewAt(savedTaskIndex);
+            addCard(savedTask, savedTaskIndex);
+            Log.v("tag", String.valueOf(savedTaskIndex));
+            Log.v("tag", String.valueOf(tasksContainer.getChildCount()));
+            Log.v("tag", String.valueOf(taskList.stream().count()));
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (requestCode == REQUEST_GET_MAP_LOCATION && resultCode == Activity.RESULT_OK) {
+//            int latitude = data.getIntExtra("latitude", 0);
+//            int longitude = data.getIntExtra("longitude", 0);
+//            // do something with B's return values
+//        }
+//    }
+
+
+    private void addCard(SHTask cardTask) {
+        addCard(cardTask, tasksContainer.getChildCount());
+    }
+    private void addCard(SHTask cardTask, int index) {
         final View view = getLayoutInflater().inflate(R.layout.task_card, null);
 
         TextView nameView = view.findViewById(R.id.name);
-        Button edit = view.findViewById(R.id.edit);
+        ImageButton edit = view.findViewById(R.id.edit);
+        ImageButton delete = view.findViewById(R.id.closeButton);
+        String title = cardTask.getName();
 
-        nameView.setText(name);
+        nameView.setText(title);
 
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Editing...", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(OrganizerHuntEditorActivity.this, OrganizerTaskActivity.class);
+                intent.putExtra("task", cardTask); //where user is an instance of User object
+                intent.putExtra("index", taskList.indexOf(cardTask)); //where user is an instance of User object
+                startActivityForResult(intent, 0);
+            }
+        });
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Deleting...", Toast.LENGTH_SHORT).show();
+                // For removing it:
                 tasksContainer.removeView(view);
+                taskList.remove(cardTask);
             }
         });
 
-        tasksContainer.addView(view);
+        tasksContainer.addView(view, index);
     }
 
 //    @Override

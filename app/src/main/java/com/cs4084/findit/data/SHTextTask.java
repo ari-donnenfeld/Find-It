@@ -14,4 +14,12 @@ public class SHTextTask extends SHTask {
     public void removeAnswer(int answer_num) {
         accepted_answers.remove(answer_num);
     }
+
+    @Override
+    public String getName() {
+        if (!accepted_answers.isEmpty()) {
+            return accepted_answers.get(0);
+        }
+        return "UnEdited";
+    }
 }

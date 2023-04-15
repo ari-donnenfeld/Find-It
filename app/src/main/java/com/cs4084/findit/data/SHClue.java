@@ -1,6 +1,8 @@
 package com.cs4084.findit.data;
 
-public class SHClue {
+import java.io.Serializable;
+
+public class SHClue implements Serializable {
     public String description;
     public int penalty;
 
