@@ -1,0 +1,16 @@
+Hunts
+    UUID
+    UUID
+    UUID
+        owner
+        status
+        players
+            James: 0
+            Ducks: 1
+        tasks
+            0
+            1
+            2
+                Object
+rooms
+    ABC123: UUID

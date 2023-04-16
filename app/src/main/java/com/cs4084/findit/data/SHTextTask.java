@@ -20,6 +20,6 @@ public class SHTextTask extends SHTask {
         if (!accepted_answers.isEmpty()) {
             return accepted_answers.get(0);
         }
-        return "UnEdited";
+        return "New Text Task";
     }
 }

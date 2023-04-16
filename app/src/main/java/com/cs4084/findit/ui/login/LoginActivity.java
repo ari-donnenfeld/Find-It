@@ -30,6 +30,7 @@ import com.cs4084.findit.databinding.ActivityLoginBinding;
 import com.cs4084.findit.ui.organizer.OrganizerHuntEditorActivity;
 import com.cs4084.findit.ui.organizer.OrganizerTaskActivity;
 import com.cs4084.findit.ui.player.PlayerTaskActivity;
+import com.google.firebase.FirebaseApp;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -39,6 +40,8 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FirebaseApp.initializeApp(this);
 
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
