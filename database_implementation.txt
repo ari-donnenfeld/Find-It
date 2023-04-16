@@ -3,7 +3,7 @@ Hunts
     UUID
     UUID
         owner
-        status
+        status (one of: not started, waiting room, in progress, completed)
         players
             James: 0
             Ducks: 1

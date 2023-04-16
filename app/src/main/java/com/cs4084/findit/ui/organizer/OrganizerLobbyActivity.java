@@ -79,7 +79,6 @@ public class OrganizerLobbyActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Log.d("tag", "onChildAdded:" + snapshot.getKey());
-                // A new comment has been added, add it to the displayed list
                 int place = snapshot.getValue(int.class);
 
                 listItems.add(snapshot.getKey());
@@ -89,23 +88,14 @@ public class OrganizerLobbyActivity extends AppCompatActivity {
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
                 Log.d("tag", "onChildRemoved:" + snapshot.getKey());
-                // A new comment has been added, add it to the displayed list
-                Comment comment = snapshot.getValue(Comment.class);
-
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) { }
             @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) { }
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) { }
         };
         mDatabase.child("hunts").child(huntId).child("players").addChildEventListener(childEventListener);
 //        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_owner_lobby);

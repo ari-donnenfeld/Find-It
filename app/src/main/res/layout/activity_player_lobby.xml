@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.player.PlayerLobbyActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/waitingBlock"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/welcome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="20dp"
+                android:gravity="center"
+                android:text="Welcome! You have joined successfully"
+                android:textSize="30dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="20dp"
+                android:gravity="center"
+                android:text="Waiting for Organizer to start the Scavanger Hunt"
+                android:textSize="30dp" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/leave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="20dp"
+            android:layout_marginHorizontal="100dp"
+            android:text="Leave Hunt" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/joiningBlock"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Join a Hunt"
+            android:textSize="30dp"
+            android:layout_marginVertical="20dp"
+            android:gravity="center"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enter your Team/Player Name:"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/playerNameWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginHorizontal="50dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:hint="e.g. The Ducks">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:id="@+id/playerName"
+                android:textSize="20dp"
+                android:gravity="center_horizontal"
+                android:layout_height="match_parent"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enter your Hunt Code here.\n(Ask your organizer for this)"
+            android:textSize="20dp"
+            android:layout_marginTop="50dp"
+            android:gravity="center"
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/huntCodeWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginHorizontal="50dp"
+            android:layout_marginVertical="30dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:hint="ABC123">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:id="@+id/huntCode"
+                android:textSize="40dp"
+                android:gravity="center_horizontal"
+                android:layout_height="match_parent"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/join"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="100dp"
+            android:text="Join" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
