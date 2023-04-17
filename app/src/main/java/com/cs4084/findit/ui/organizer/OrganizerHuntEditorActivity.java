@@ -81,8 +81,8 @@ public class OrganizerHuntEditorActivity extends AppCompatActivity {
                 mDatabase.child("hunts").child(huntId).child("status").setValue("waiting room");
 
                 Intent intent = new Intent(OrganizerHuntEditorActivity.this, OrganizerLobbyActivity.class);
-                intent.putExtra("huntId", huntId); //where user is an instance of User object
-                startActivityForResult(intent, 0);
+                intent.putExtra("huntId", huntId);
+                startActivity(intent);
             }
         });
 
@@ -157,8 +157,8 @@ public class OrganizerHuntEditorActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Editing...", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(OrganizerHuntEditorActivity.this, OrganizerTaskActivity.class);
-                intent.putExtra("task", cardTask); //where user is an instance of User object
-                intent.putExtra("index", taskList.indexOf(cardTask)); //where user is an instance of User object
+                intent.putExtra("task", cardTask);
+                intent.putExtra("index", taskList.indexOf(cardTask));
                 startActivityForResult(intent, 0);
             }
         });

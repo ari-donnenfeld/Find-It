@@ -1,7 +1,9 @@
 package com.cs4084.findit.ui.player;
 
+import android.os.Build;
 import android.os.Bundle;
 
+import com.cs4084.findit.data.SHTask;
 import com.cs4084.findit.data.SHTextTask;
 import com.cs4084.findit.databinding.ActivityPlayerTaskBinding;
 
@@ -22,21 +24,53 @@ import androidx.navigation.ui.NavigationUI;
 import com.cs4084.findit.R;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.ArrayList;
+
+// This activity no longer just holds a single task
+// This activity is in charge of going through all the tasks given to it as an array.
 public class PlayerTaskActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityPlayerTaskBinding binding;
-    private SHTextTask task;
+
+
+
+    ArrayList<SHTask> taskList = new ArrayList<>();
+    SHTask currentTask;
+    int currentTaskNum = -1;
+
+
+
+    TextView description;
+    TextView title;
+    Button nextButton;
+
+
+    void newTask() {
+        Log.v("tag", "Setting up a new one");
+        currentTaskNum += 1;
+        int totalTasks = taskList.size();
+        if (currentTaskNum >= totalTasks) {
+                Toast.makeText(getApplicationContext(), "You have finished all the tasks!", Toast.LENGTH_SHORT).show();
+                return;
+        }
+        currentTask = taskList.get(currentTaskNum);
+
+
+
+        // Set it up!
+        description.setText(currentTask.description);
+        title.setText("Task " + (currentTaskNum + 1));
+        nextButton.setEnabled(false);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        task = new SHTextTask();
-        task.description = "In this task you must answer me these riddles three. What is a 'pato'? What animal has waterproof feathers? What is the best animal?";
-        task.addAnswer("duck");
-        task.addAnswer("Duck");
-        task.addAnswer("Quack");
 
+        if(getIntent().getExtras() != null) {
+            taskList = (ArrayList<SHTask>) getIntent().getBundleExtra("BUNDLE").getSerializable("tasks");
+        }
 
 
 
@@ -49,33 +83,42 @@ public class PlayerTaskActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         Log.v("TAG", "No! here!");
 
-        final TextView description = binding.description;
+        description = binding.description;
+        title = binding.title;
         final Button checkButton = binding.checkButton;
-        final Button nextButton = binding.nextButton;
+        nextButton = binding.nextButton;
         final TextInputLayout playerAnswer = binding.playerAnswer;
 
-        description.setText(task.description);
+
+        newTask();
 
 
-
-//        setSupportActionBar(binding.toolbar);
-
-//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_player_task);
-//        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         Log.v("TAG", "All the way to the bottom.");
         checkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Checking...", Toast.LENGTH_SHORT).show();
                 Log.v("tag", playerAnswer.getEditText().getText().toString());
-                for (String acc : task.accepted_answers) {
-                    if (acc.equals(playerAnswer.getEditText().getText().toString())) {
-                        Log.v("tag", "YES YOU GOT IT");
-                        nextButton.setEnabled(true);
 
+                if (currentTask instanceof SHTextTask) {
+                    for (String acc : ((SHTextTask) currentTask).accepted_answers) {
+                        if (acc.equals(playerAnswer.getEditText().getText().toString())) {
+                            Log.v("tag", "YES YOU GOT IT");
+                            Toast.makeText(getApplicationContext(), "CORRECT!", Toast.LENGTH_SHORT).show();
+                            nextButton.setEnabled(true);
+                            return;
+
+                        }
                     }
+                    Toast.makeText(getApplicationContext(), "WRONG!", Toast.LENGTH_SHORT).show();
+
                 }
+            }
+        });
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newTask();
             }
         });
     }

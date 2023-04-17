@@ -22,4 +22,9 @@ public class SHTextTask extends SHTask {
         }
         return "New Text Task";
     }
+    public void setName(String name) {
+        // This must be here for some stupid reason
+        // that I'm too lazy to debug.
+        // Don't remove it!
+    }
 }
