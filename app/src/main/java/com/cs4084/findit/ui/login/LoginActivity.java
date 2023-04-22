@@ -2,6 +2,7 @@ package com.cs4084.findit.ui.login;
 
 import android.app.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -28,33 +30,55 @@ import com.cs4084.findit.ui.login.LoginViewModel;
 import com.cs4084.findit.ui.login.LoginViewModelFactory;
 import com.cs4084.findit.databinding.ActivityLoginBinding;
 import com.cs4084.findit.ui.organizer.OrganizerHuntEditorActivity;
+import com.cs4084.findit.ui.organizer.OrganizerLobbyActivity;
 import com.cs4084.findit.ui.organizer.OrganizerTaskActivity;
 import com.cs4084.findit.ui.player.PlayerLobbyActivity;
 import com.cs4084.findit.ui.player.PlayerTaskActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
     private ActivityLoginBinding binding;
 
+    private FirebaseAuth mAuth;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.v("tag", "Just created");
 
         FirebaseApp.initializeApp(this);
 
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        Log.v("tag", "Initialized");
+
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        Log.v("tag", "Before check");
+        if (currentUser != null) {
+            Log.v("tag", "In check");
+            // You are logged in
+            Intent myIntent = new Intent(LoginActivity.this, OrganizerHuntEditorActivity.class);
+            startActivity(myIntent);
+        }
+        Log.v("tag", "After Check");
 
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
+        Log.v("tag", "Before Gets");
         final EditText usernameEditText = binding.username;
         final EditText passwordEditText = binding.password;
         final Button loginButton = binding.login;
-        final Button test = binding.button3;
         final ProgressBar loadingProgressBar = binding.loading;
+        Log.v("tag", "After Gets");
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
@@ -95,6 +119,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        Log.v("tag", "After abosGets");
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -126,24 +151,62 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        Log.v("tag", "Beofre onclick");
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
-            }
-        });
+                Log.v("tag", "YOU CLICKED IT");
+                mAuth.createUserWithEmailAndPassword(usernameEditText.getText().toString(),
+                        passwordEditText.getText().toString())
+                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Log.d("tag", "createUserWithEmail:success");
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    Intent intent = new Intent(LoginActivity.this, OrganizerHuntEditorActivity.class);
+                                    startActivity(intent);
+//                                    updateUI(user);
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Log.w("tag", "createUserWithEmail:failure " + task.getException().getMessage());
+                                    // User already exists. Perhaps trying to login.
+                                    if (task.getException().getMessage().equals("The email address is already in use by another account.")) {
+//                                        Toast.makeText(getApplicationContext(), "User already exists", Toast.LENGTH_SHORT).show();
+                                        mAuth.signInWithEmailAndPassword(usernameEditText.getText().toString(),
+                                                        passwordEditText.getText().toString())
+                                                .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                                        if (task.isSuccessful()) {
+                                                            // Sign in success, update UI with the signed-in user's information
+                                                            Log.d("tag", "signInWithEmail:success");
+                                                            FirebaseUser user = mAuth.getCurrentUser();
+//                                                            user.getIdToken(true);
+                                                            Intent intent = new Intent(LoginActivity.this, OrganizerHuntEditorActivity.class);
+                                                            startActivity(intent);
+                                                        } else {
+                                                            // If sign in fails, display a message to the user.
+                                                            Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                                            Log.w("tag", "signInWithEmail:failure", task.getException());
+                                                        }
+                                                    }
+                                                });
+                                    }
+//                                    Toast.makeText(EmailPasswordActivity.this, "Authentication failed.",
+//                                            Toast.LENGTH_SHORT).show();
+//                                    updateUI(user);
+                                }
+                            }
+                        });
 
-        test.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "I'm workgin!@", Toast.LENGTH_LONG).show();
-                Intent myIntent = new Intent(LoginActivity.this, PlayerLobbyActivity.class);
-                myIntent.putExtra("key", "hello there"); //Optional parameters
-                startActivity(myIntent);
+//                loadingProgressBar.setVisibility(View.VISIBLE);
+//                loginViewModel.login(usernameEditText.getText().toString(),
+//                        passwordEditText.getText().toString());
             }
         });
+        Log.v("tag", "After onclick");
     }
 
     private void updateUiWithUser(LoggedInUserView model) {

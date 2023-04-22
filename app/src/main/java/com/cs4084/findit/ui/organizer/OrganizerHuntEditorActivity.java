@@ -10,6 +10,7 @@ import com.cs4084.findit.data.SHTextTask;
 import com.cs4084.findit.databinding.ActivityOrganizerHuntEditorBinding;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
@@ -24,8 +25,13 @@ import androidx.navigation.ui.AppBarConfiguration;
 
 import com.cs4084.findit.R;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -40,6 +46,7 @@ public class OrganizerHuntEditorActivity extends AppCompatActivity {
 
     // Setup Firebase
     private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
 
     String huntId;
 
@@ -52,22 +59,52 @@ public class OrganizerHuntEditorActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.toolbar);
 
+        Log.v("tag", "Inside HuntEditor");
         tasksContainer = binding.tasksContainer;
         Button addTaskButton = binding.addTaskButton;
         Button saveButton = binding.saveButton;
         Button createButton = binding.createButton;
 
+        Log.v("tag", "Created the buttons");
         // Setup Firebase
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        huntId = UUID.randomUUID().toString();
+        Log.v("tag", "Started the huntID");
 
+        // Get you existing Hunt
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        Log.v("tag", "Got the user");
+        ValueEventListener huntGetterEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.v("tag", "Got some data hunt.");
+                Log.v("tag", currentUser.getUid());
+//                huntId = snapshot.getValue(String.class);
+//                Log.v("tag", huntId);
+                if (snapshot.hasChild(currentUser.getUid())) {
+                    Log.v("tag", "Yes it exists");
+                    huntId = snapshot.child(currentUser.getUid()).getValue(String.class);
+                } else {
+                    Log.v("tag", "This user doesn't have a hunt");
+                    huntId = UUID.randomUUID().toString();
+                    mDatabase.child("owners").child(currentUser.getUid()).setValue(huntId);
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.v("tag", "It was cancelled, not sure what that means");
+            }
+        };
 
-//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_organizer_hunt_editor);
-//        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        Log.v("tag", "declared the listener");
+        Log.v("tag", currentUser.getDisplayName());
+        Log.v("tag", currentUser.getEmail());
+        Log.v("tag", currentUser.getUid());
+        // Check if I have existing hunt
+        mDatabase.child("owners").addListenerForSingleValueEvent(huntGetterEventListener);
 
-
+        Log.v("tag", "Requested it");
 
 
         createButton.setOnClickListener(new View.OnClickListener() {
