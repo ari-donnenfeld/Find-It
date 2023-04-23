@@ -46,8 +46,9 @@ public class PlayerTaskActivity extends AppCompatActivity {
     Button nextButton;
 
 
+    // Goes to the next task
+    // Might look like a new screen, but it's just updating the UI of this activity
     void newTask() {
-        Log.v("tag", "Setting up a new one");
         currentTaskNum += 1;
         int totalTasks = taskList.size();
         if (currentTaskNum >= totalTasks) {
@@ -72,16 +73,10 @@ public class PlayerTaskActivity extends AppCompatActivity {
             taskList = (ArrayList<SHTask>) getIntent().getBundleExtra("BUNDLE").getSerializable("tasks");
         }
 
-
-
-        Log.v("TAG", "Well it made it to here...");
         super.onCreate(savedInstanceState);
-        Log.v("TAG", "And Now here");
 
         binding = ActivityPlayerTaskBinding.inflate(getLayoutInflater());
-        Log.v("TAG", "Alright, here");
         setContentView(binding.getRoot());
-        Log.v("TAG", "No! here!");
 
         description = binding.description;
         title = binding.title;
@@ -93,7 +88,8 @@ public class PlayerTaskActivity extends AppCompatActivity {
         newTask();
 
 
-        Log.v("TAG", "All the way to the bottom.");
+        // Checks if its correct
+        // This method will take into account the task type
         checkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

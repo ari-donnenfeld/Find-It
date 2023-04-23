@@ -7,10 +7,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.navigation.ui.AppBarConfiguration;
 
@@ -52,6 +54,7 @@ public class OrganizerLobbyActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        // Read data passed from the Hunt Editor
         if(getIntent().getExtras() != null) {
             huntId = (String) getIntent().getStringExtra("huntId");
             roomCode = huntId.substring(0, 6);
@@ -75,6 +78,17 @@ public class OrganizerLobbyActivity extends AppCompatActivity {
         roomCodeSign.setText(roomCode);
 
 
+        // Sends signal to player devices to start/show first task
+        beginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.v("tag", "Beginning...");
+                mDatabase.child("hunts").child(huntId).child("status").setValue("in progress");
+                Toast.makeText(getApplicationContext(), "It has begun!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Add player names as they join
         ChildEventListener childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -87,9 +101,7 @@ public class OrganizerLobbyActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                Log.d("tag", "onChildRemoved:" + snapshot.getKey());
             }
-
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) { }
             @Override
@@ -98,15 +110,6 @@ public class OrganizerLobbyActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) { }
         };
         mDatabase.child("hunts").child(huntId).child("players").addChildEventListener(childEventListener);
-//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_owner_lobby);
-//        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
     }
 
-//    @Override
-//    public boolean onSupportNavigateUp() {
-//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_owner_lobby);
-//        return NavigationUI.navigateUp(navController, appBarConfiguration)
-//                || super.onSupportNavigateUp();
-//    }
 }

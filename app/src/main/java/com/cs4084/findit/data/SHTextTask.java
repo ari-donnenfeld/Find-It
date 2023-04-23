@@ -3,6 +3,10 @@ package com.cs4084.findit.data;
 import java.util.ArrayList; // import the ArrayList class
 
 public class SHTextTask extends SHTask {
+
+    // This is just for use in the database
+    // I have not found a way to remove it
+    // But it should not be needed.
     public ArrayList<String> accepted_answers = new ArrayList<>();
 
     public void SHTextTask() {
@@ -23,8 +27,5 @@ public class SHTextTask extends SHTask {
         return "New Text Task";
     }
     public void setName(String name) {
-        // This must be here for some stupid reason
-        // that I'm too lazy to debug.
-        // Don't remove it!
     }
 }

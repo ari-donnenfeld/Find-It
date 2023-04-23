@@ -59,31 +59,46 @@ public class OrganizerHuntEditorActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.toolbar);
 
-        Log.v("tag", "Inside HuntEditor");
         tasksContainer = binding.tasksContainer;
         Button addTaskButton = binding.addTaskButton;
         Button saveButton = binding.saveButton;
         Button createButton = binding.createButton;
 
-        Log.v("tag", "Created the buttons");
         // Setup Firebase
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        Log.v("tag", "Started the huntID");
 
         // Get you existing Hunt
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        Log.v("tag", "Got the user");
+
+        // Get the list of tasks from saved data
+        ValueEventListener tasksEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.v("tag", "Getting the tasks");
+                Log.v("tag", String.valueOf(snapshot.getChildrenCount()));
+                // Loop all saved tasks and add them to the UI
+                for (DataSnapshot dss: snapshot.getChildren()) {
+                    Log.v("tag", dss.getValue(SHTask.class).description);
+                    taskList.add(dss.getValue(SHTextTask.class));
+                    int last = taskList.size();
+                    addCard(taskList.get(last-1), last-1);
+                }
+            }
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        };
+
+        // Get the UUID of the hunt from the user UUID
         ValueEventListener huntGetterEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.v("tag", "Got some data hunt.");
-                Log.v("tag", currentUser.getUid());
-//                huntId = snapshot.getValue(String.class);
-//                Log.v("tag", huntId);
+                // If this user has already created a hunt, then pull its tasks
                 if (snapshot.hasChild(currentUser.getUid())) {
                     Log.v("tag", "Yes it exists");
                     huntId = snapshot.child(currentUser.getUid()).getValue(String.class);
+                    mDatabase.child("hunts").child(huntId).child("tasks").addListenerForSingleValueEvent(tasksEventListener);
+                // Create a hunt if the user didn't already have one
                 } else {
                     Log.v("tag", "This user doesn't have a hunt");
                     huntId = UUID.randomUUID().toString();
@@ -93,27 +108,20 @@ public class OrganizerHuntEditorActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.v("tag", "It was cancelled, not sure what that means");
             }
         };
 
-        Log.v("tag", "declared the listener");
-        Log.v("tag", currentUser.getDisplayName());
-        Log.v("tag", currentUser.getEmail());
-        Log.v("tag", currentUser.getUid());
-        // Check if I have existing hunt
+        // Check if user has existing hunt
         mDatabase.child("owners").addListenerForSingleValueEvent(huntGetterEventListener);
 
-        Log.v("tag", "Requested it");
-
-
+        // Start the hunt waiting room
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Saving...", Toast.LENGTH_SHORT).show();
                 String roomCode = huntId.substring(0, 6);
                 mDatabase.child("rooms").child(roomCode).setValue(huntId);
-                mDatabase.child("hunts").child(huntId).child("owner").setValue("james@email.com");
+                mDatabase.child("hunts").child(huntId).child("owner").setValue(currentUser.getEmail());
                 mDatabase.child("hunts").child(huntId).child("tasks").setValue(taskList);
                 mDatabase.child("hunts").child(huntId).child("status").setValue("waiting room");
 
@@ -123,6 +131,7 @@ public class OrganizerHuntEditorActivity extends AppCompatActivity {
             }
         });
 
+        // Save the tasks data to the database
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,6 +142,7 @@ public class OrganizerHuntEditorActivity extends AppCompatActivity {
             }
         });
 
+        // Create a new task
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,6 +160,8 @@ public class OrganizerHuntEditorActivity extends AppCompatActivity {
 
     }
 
+    // This method is called once the Task Edit is complete
+    // and it return its data to this class to process
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
@@ -167,15 +179,8 @@ public class OrganizerHuntEditorActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == REQUEST_GET_MAP_LOCATION && resultCode == Activity.RESULT_OK) {
-//            int latitude = data.getIntExtra("latitude", 0);
-//            int longitude = data.getIntExtra("longitude", 0);
-//            // do something with B's return values
-//        }
-//    }
 
-
+    // Adding the Task cards
     private void addCard(SHTask cardTask) {
         addCard(cardTask, tasksContainer.getChildCount());
     }
@@ -212,10 +217,4 @@ public class OrganizerHuntEditorActivity extends AppCompatActivity {
         tasksContainer.addView(view, index);
     }
 
-//    @Override
-//    public boolean onSupportNavigateUp() {
-////        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_organizer_tasks_list);
-////        return NavigationUI.navigateUp(navController, appBarConfiguration)
-////                || super.onSupportNavigateUp();
-//    }
 }

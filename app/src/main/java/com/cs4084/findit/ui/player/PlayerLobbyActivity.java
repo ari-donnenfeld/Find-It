@@ -49,11 +49,12 @@ public class PlayerLobbyActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        // Don't ask me why, that's what the damn linter told me to do
+
         final String[] huntId = {null};
         final ArrayList<SHTask> taskList = new ArrayList<>();
 
 
+        // Declare the UI elements
         final Button joinButton = binding.join;
         final TextInputEditText playerNameInput = binding.playerName;
         final TextInputEditText huntCodeInput = binding.huntCode;
@@ -167,7 +168,5 @@ public class PlayerLobbyActivity extends AppCompatActivity {
                 mDatabase.child("rooms").child(huntCodeInput.getText().toString().toLowerCase()).addListenerForSingleValueEvent(uuidGetterEventListener);
             }
         });
-
-
     }
 }

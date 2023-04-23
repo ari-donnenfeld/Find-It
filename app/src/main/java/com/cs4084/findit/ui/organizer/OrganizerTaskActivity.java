@@ -52,6 +52,8 @@ public class OrganizerTaskActivity extends AppCompatActivity {
         binding = ActivityOrganizerTaskBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Takes existing task data
+        // This should change the task type depending on the input
         if(getIntent().getExtras() != null) {
             task = (SHTask) getIntent().getSerializableExtra("task");
             taskIndex = (int) getIntent().getIntExtra("index", 0);
@@ -60,16 +62,13 @@ public class OrganizerTaskActivity extends AppCompatActivity {
             } else {
                 task = (SHTask) task;
             }
-            Log.v("tag", "Yea I've got something");
-            Log.v("tag", task.getName());
-            Log.v("tag", String.valueOf(taskIndex));
         } else {
             // This should never occur
             task = new SHTextTask();
         }
 
 
-
+        // Declare the UI elements
         final Button addAnswer = binding.addAnswer;
         final Button save = binding.save;
         final TextInputEditText playerAnswer = binding.newAnswer;
@@ -118,25 +117,9 @@ public class OrganizerTaskActivity extends AppCompatActivity {
             }
         });
 
-//        setSupportActionBar(binding.toolbar);
-
-        if (false) {
-            //        NavController navController = Navigation.findNavController(this, R.id.activity_organizer_task);
-            ////        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_organizer_task);
-            //        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-            //        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-            //
-            //        Spinner spinner = (Spinner) findViewById(R.id.penalties_spinner);
-            //        // Create an ArrayAdapter using the string array and a default spinner layout
-            //        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-            //                R.array.penalties_array, android.R.layout.simple_spinner_item);
-            //        // Specify the layout to use when the list of choices appears
-            //        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            //        // Apply the adapter to the spinner
-            //        spinner.setAdapter(adapter);
-        }
     }
 
+    // Add the new answer to the UI list
     private void newAnswer(String text) {
         listItems.add(text);
         adapter.notifyDataSetChanged();
